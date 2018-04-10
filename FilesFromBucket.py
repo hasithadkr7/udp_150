@@ -131,5 +131,5 @@ try:
     except:
         print('Rainfall files download failed')
 except:
-    print('Rain cell/Mean-Ref/Sub-ref file download failed')
+    print('Rain cell/Mean-Ref/Sub-ref/Rain fall file download failed')
 
