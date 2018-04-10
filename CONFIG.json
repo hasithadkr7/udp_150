@@ -1,0 +1,39 @@
+{
+    "HEC_HMS_DIR"       : "/home/hec-hms-421",
+    "HEC_DSSVUE_DIR"    : "/home/hec-dssvue201",
+    "STATUS_FILE"       : "Status.txt",
+    "OUTPUT_DIR"        : "/home/OUTPUT",
+
+    "TIME_INTERVAL"     : 60,
+    "HEC_HMS_MODEL_DIR" : "/home/2008_2_Events",
+    "DSS_INPUT_FILE"    : "/home/2008_2_Events/2008_2_Events_input.dss",
+    "DSS_OUTPUT_FILE"   : "/home/2008_2_Events/2008_2_Events_run.dss",
+    "HEC_HMS_CONTROL"   : "/home/2008_2_Events/Control_1.control",
+    "HEC_HMS_RUN"       : "/home/2008_2_Events/2008_2_Events.run",
+    "HEC_HMS_GAGE"      : "/home/2008_2_Events/2008_2_Events.gage",
+    
+    "RAIN_CSV_FILE"     : "DailyRain.csv",
+    "DISCHARGE_CSV_FILE": "DailyDischarge.csv",
+    "RF_DIR_PATH"       : "/home/wrf_bucket/RF",
+    "KUB_DIR_PATH"      : "/home/wrf_bucket/Meanref",
+    "RF_GRID_DIR_PATH"  : "/home/wrf_bucket/colombo",
+    "RF_FORECASTED_DAYS": -1,
+
+    "FLO2D_RAINCELL_DIR_PATH" : "/home/wrf_bucket/Raincell",
+    "INFLOW_DAT_FILE"   : "/home/udp_150/FLO2D/INFLOW.DAT",
+    "OUTFLOW_DAT_FILE"  : "/home/udp_150/FLO2D/OUTFLOW.DAT",
+    "BASE_OUT_FILE"     : "BASE.OUT",
+    "HYCHAN_OUT_FILE"   : "HYCHAN.OUT",
+    "INIT_WL_CONFIG"    : "/home/udp_150/Template/INITWL.CONF",
+    "INIT_TIDAL_CONFIG" : "/home/udp_150/Template/INITTIDAL.CONF",
+    "WATER_DISCHARGE_DIR"     : "water_discharge",
+    "WATER_DISCHARGE_FILE"    : "water_discharge.txt",
+
+    "HOST_ADDRESS"      : "10.138.0.4",
+    "HOST_PORT"         : 8085,
+
+    "MYSQL_HOST"        : "10.138.0.6",
+    "MYSQL_USER"        : "curw",
+    "MYSQL_PASSWORD"    : "curw@123",
+    "MYSQL_DB"          : "curw"
+}
