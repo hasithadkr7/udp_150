@@ -118,18 +118,18 @@ try:
     except:
         print('Mean-Ref file download failed')
 
-    subrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-    subrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-    subrf_blob = get_blob(subrf_bucket, subrf_prefix, config.SUB_REF_FILE)
-    try:
-        get_sub_ref_file(subrf_blob, config.SUB_REF_DIR, shift)
-    except:
-        print('Sub-Ref file download failed')
+    # subrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
+    # subrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
+    # subrf_blob = get_blob(subrf_bucket, subrf_prefix, config.SUB_REF_FILE)
+    # try:
+    #     get_sub_ref_file(subrf_blob, config.SUB_REF_DIR, shift)
+    # except:
+    #     print('Sub-Ref file download failed')
 
     try:
         get_rf_files(config.RF_FILE_SUFFIX, config.RF_DIR, shift)
     except:
         print('Rainfall files download failed')
 except:
-    print('Rain cell/Mean-Ref/Sub-ref/Rain fall file download failed')
+    print('Rain cell/Mean-Ref/Rain fall file download failed')
 

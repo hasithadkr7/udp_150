@@ -141,7 +141,7 @@ try:
     KELANI_UPPER_BASIN = KELANI_UPPER_BASIN_WEIGHTS.keys()
 
     LOWER_CATCHMENT_WEIGHTS = {
-        'klb_mean_rf': 1
+        'Colombo': 1
     }
     LOWER_CATCHMENTS = LOWER_CATCHMENT_WEIGHTS.keys()
 
@@ -172,9 +172,9 @@ try:
     print(' RFTOCSV run for', date, '@', time, tag)
     print(' With Custom starting', startDate, '@', startTime, ' using RF data of ', rfForecastedDate)
 
-    RF_DIR_PATH = '/home/wrf_bucket/Rainfall/' + rfForecastedDate
-    KUB_DIR_PATH = '/home/wrf_bucket/Meanref/' + rfForecastedDate
-    KLB_DIR_PATH = '/home/wrf_bucket/Subref/' + rfForecastedDate
+    RF_DIR_PATH = '/hec-hms/Rainfall/' + rfForecastedDate
+    KUB_DIR_PATH = '/hec-hms/Meanref/' + rfForecastedDate
+    KLB_DIR_PATH = '/hec-hms/Subref/' + rfForecastedDate
 
     print('RF_DIR_PATH:', RF_DIR_PATH)
     print('RF_DIR_PATH:', KUB_DIR_PATH)
@@ -217,7 +217,7 @@ try:
     # klb_mean_rf.txt
     LOWER_THEISSEN_VALUES = OrderedDict()
     for lowerCatchment in LOWER_CATCHMENTS:
-        for filename in glob.glob(os.path.join(RF_DIR_PATH, 'klb_mean_rf.txt.txt')):
+        for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % lowerCatchment)):
             print('Start Operating on (Lower) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
