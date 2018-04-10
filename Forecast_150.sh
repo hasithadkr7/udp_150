@@ -333,6 +333,10 @@ main() {
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${HEC_HMS_MODEL_DIR} ]] && echo "" || echo "--hec-hms-model-dir $HEC_HMS_MODEL_DIR"`
 
+            # "HEC_HMS_MODEL_DIR" : "./2008_2_Events"
+            # HEC_HMS_SCRIPT_PATH = "./2008_2_Events/2008_2_Events.script"
+            # "HEC_HMS_DIR"       : "hec-hms41"
+
             # Run HEC-HMS model
             HEC_HMS_SCRIPT_PATH=${HEC_HMS_MODEL_DIR}/2008_2_Events.script
             # TODO: Check python3 availability
