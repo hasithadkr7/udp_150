@@ -14,9 +14,9 @@
     
     "RAIN_CSV_FILE"     : "DailyRain.csv",
     "DISCHARGE_CSV_FILE": "DailyDischarge.csv",
-    "RF_DIR_PATH"       : "/home/wrf_bucket/RF",
+    "RF_DIR_PATH"       : "/home/wrf_bucket/Rainfall",
     "KUB_DIR_PATH"      : "/home/wrf_bucket/Meanref",
-    "RF_GRID_DIR_PATH"  : "/home/wrf_bucket/colombo",
+    "RF_GRID_DIR_PATH"  : "/home/wrf_bucket/Subref",
     "RF_FORECASTED_DAYS": -1,
 
     "FLO2D_RAINCELL_DIR_PATH" : "/home/wrf_bucket/Raincell",

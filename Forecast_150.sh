@@ -120,7 +120,7 @@ STORE_DATA=false
 FORCE_EXIT=false
 CONTROL_INTERVAL=0
 TAG=""
-WRF_OUT=""
+WRF_OUT="/home/wrf_bucket"
 RUN_NAME=""
 
 # Read the options
@@ -294,14 +294,14 @@ main() {
         forecastStatus=0
     fi
     echo $forecast_date
-    result=`./FilesFromBucket.py ${forecast_date}`
+    result=`./home/udp_150/FilesFromBucket.py ${forecast_date}`
     echo $result
     if [ "$result" == "proceed" ]; then
         if [ ${forecastStatus} == 0 ]; then
             mkdir ${OUTPUT_DIR}
             # Read WRF forecast data, then create precipitation .csv for Upper Catchment
             # using Theissen Polygon
-            ./RFTOCSV.py -d ${forecast_date} -t ${forecast_time} \
+            ./home/udp_150/RFTOCSV.py -d ${forecast_date} -t ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 --wrf-rf ${RF_DIR_PATH} --wrf-kub ${KUB_DIR_PATH} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"`
@@ -314,19 +314,19 @@ main() {
             if [ ! -d "$HEC_HMS_MODEL_DIR" ]; then
                 mkdir ${HEC_HMS_MODEL_DIR}
             fi
-            yes | cp -R 2008_2_Events_Hack/* ${HEC_HMS_MODEL_DIR}
+            yes | cp -R /home/2008_2_Events_Hack/* ${HEC_HMS_MODEL_DIR}
 
             # Remove .dss files in order to remove previous results
             rm ${DSS_INPUT_FILE}
             rm ${DSS_OUTPUT_FILE}
             # Read Avg precipitation, then create .dss input file for HEC-HMS model
-            ./dssvue/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
+            ./home/udp_150/dssvue/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${HEC_HMS_MODEL_DIR} ]] && echo "" || echo "--hec-hms-model-dir $HEC_HMS_MODEL_DIR"`
 
             # Change HEC-HMS running time window
-            ./Update_HECHMS.py -d ${forecast_date} -t ${forecast_time} \
+            ./home/udp_150/Update_HECHMS.py -d ${forecast_date} -t ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ ${INIT_STATE} == true ]] && echo "-i" || echo ""` \
                 `[[ ${CONTROL_INTERVAL} == 0 ]] && echo "" || echo "-c $CONTROL_INTERVAL"` \
@@ -349,21 +349,20 @@ main() {
 
             sed -i "/OpenProject/c\\$HEC_HMS_PROJECT_TXT" ${HEC_HMS_SCRIPT_RELATIVE_PATH}
 
-            ./HEC-HMS.sh -s ${HEC_HMS_SCRIPT_RELATIVE_PATH}
+            ./home/hec-hms-421/hec-hms.sh -s ${HEC_HMS_SCRIPT_RELATIVE_PATH}
             ret=$?
             if [ ${ret} -ne 0 ]; then
                  echo "Error in running HEC-HMS Model"
                  exit 1
             fi
-            cd ${ROOT_DIR}
             # Read HEC-HMS result, then extract Discharge into .csv
-            ./dssvue/hec-dssvue.sh DSSTOCSV.py --date ${forecast_date} --time ${forecast_time} \
+            ./home/hec-dssvue201/hec-dssvue.sh DSSTOCSV.py --date ${forecast_date} --time ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${HEC_HMS_MODEL_DIR} ]] && echo "" || echo "--hec-hms-model-dir $HEC_HMS_MODEL_DIR"`
 
             # Read Discharge .csv, then create INFLOW.DAT file for FLO2D
-            ./CSVTODAT.py  -d ${forecast_date} -t ${forecast_time} \
+            ./home/udp_150/CSVTODAT.py  -d ${forecast_date} -t ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${FORCE_RUN} ]] && echo "" || echo "-f"` \
@@ -375,7 +374,7 @@ main() {
             fi
 
             # Read Tidal Forecast values, then create OUTFLOW.DAT file for FLO2D
-            ./TIDAL_TO_OUTFLOW.py  -d ${forecast_date} -t ${forecast_time} \
+            ./home/udp_150/TIDAL_TO_OUTFLOW.py  -d ${forecast_date} -t ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${FORCE_RUN} ]] && echo "" || echo "-f"` \

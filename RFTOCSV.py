@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.6
 
 import csv
 import datetime
@@ -55,8 +55,9 @@ try:
     # print('Config :: ', CONFIG)
     RF_FORECASTED_DAYS = 0
     RAIN_CSV_FILE = 'DailyRain.csv'
-    RF_DIR_PATH = './WRF/RF/'
-    KUB_DIR_PATH = './WRF/kelani-upper-basin'
+    RF_DIR_PATH = '/home/wrf_bucket/Rainfall'
+    KUB_DIR_PATH = '/home/wrf_bucket/Meanref'
+    KLB_DIR_PATH = '/home/wrf_bucket/Subref'
     OUTPUT_DIR = './OUTPUT'
     # Kelani Upper Basin
     # KUB_OBS_ID = 'b0e008522be904bcf71e290b3b0096b33c3e24d9b623dcbe7e58e7d1cc82d0db'
@@ -121,6 +122,8 @@ try:
         elif opt in ("-T", "--tag"):
             tag = arg
 
+
+
     UPPER_CATCHMENT_WEIGHTS = {
         # 'Attanagalla'   : 1/7,    # 1
         'Daraniyagala': 0.146828,  # 2
@@ -133,12 +136,12 @@ try:
     UPPER_CATCHMENTS = UPPER_CATCHMENT_WEIGHTS.keys()
 
     KELANI_UPPER_BASIN_WEIGHTS = {
-        'mean-rf': 1
+        'kub-mean-rf': 1
     }
     KELANI_UPPER_BASIN = KELANI_UPPER_BASIN_WEIGHTS.keys()
 
     LOWER_CATCHMENT_WEIGHTS = {
-        'Colombo': 1
+        'klb_mean_rf': 1
     }
     LOWER_CATCHMENTS = LOWER_CATCHMENT_WEIGHTS.keys()
 
@@ -169,10 +172,19 @@ try:
     print(' RFTOCSV run for', date, '@', time, tag)
     print(' With Custom starting', startDate, '@', startTime, ' using RF data of ', rfForecastedDate)
 
+    RF_DIR_PATH = '/home/wrf_bucket/Rainfall/' + rfForecastedDate
+    KUB_DIR_PATH = '/home/wrf_bucket/Meanref/' + rfForecastedDate
+    KLB_DIR_PATH = '/home/wrf_bucket/Subref/' + rfForecastedDate
+
+    print('RF_DIR_PATH:', RF_DIR_PATH)
+    print('RF_DIR_PATH:', KUB_DIR_PATH)
+    print('RF_DIR_PATH:', KLB_DIR_PATH)
+
     # TODO: Do not use any more, using WRF generated KUB
+    # Norwood_stations_rf.txt
     UPPER_THEISSEN_VALUES = OrderedDict()
     for catchment in UPPER_CATCHMENTS:
-        for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s-%s*.txt' % (catchment, rfForecastedDate))):
+        for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % catchment)):
             print('Start Operating on (Upper) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
@@ -185,9 +197,10 @@ try:
                 UPPER_THEISSEN_VALUES[key] += float(row[1].strip(' \t')) * UPPER_CATCHMENT_WEIGHTS[catchment]
 
     # TODO: Need to be replace by retrieving data from database
+    # kub_mean_rf.txt
     KELANI_UPPER_BASIN_VALUES = OrderedDict()
     for catchment in KELANI_UPPER_BASIN:
-        for filename in glob.glob(os.path.join(KUB_DIR_PATH, catchment + '-' + rfForecastedDate + '*.txt')):
+        for filename in glob.glob(os.path.join(KUB_DIR_PATH, 'kub_mean_rf.txt')):
             print('Start Operating on (Kelani Upper Basin) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
@@ -201,9 +214,10 @@ try:
 
     # TODO: Need to be replace by using KLB-Mean generate by WRF
     # TODO: Get data from database directly
+    # klb_mean_rf.txt
     LOWER_THEISSEN_VALUES = OrderedDict()
     for lowerCatchment in LOWER_CATCHMENTS:
-        for filename in glob.glob(os.path.join(RF_DIR_PATH, lowerCatchment + '-' + rfForecastedDate + '*.txt')):
+        for filename in glob.glob(os.path.join(RF_DIR_PATH, 'klb_mean_rf.txt.txt')):
             print('Start Operating on (Lower) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
@@ -223,7 +237,7 @@ try:
         # 'mode': Data.processed_data TODO: Hack -> Fill with WRF data
     }
     KUB_Timeseries = get_observed_timeseries(adapter, KUB_OBS_ID, opts)
-    if len(KUB_Timeseries) > 0:cd
+    if len(KUB_Timeseries) > 0:
         # print(KUB_Timeseries)
         print('KUB_Timeseries::', len(KUB_Timeseries), KUB_Timeseries[0], KUB_Timeseries[-1])
     else:

@@ -37,6 +37,15 @@ def get_mean_ref_file(blob, file_dir, date_shift):
     blob.download_to_filename(download_location)
 
 
+def get_sub_ref_file(blob, file_dir, date_shift):
+    date = get_daily_directory(date_shift)
+    directory = file_dir + date
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    download_location = directory + '/' + config.SUB_REF_FILE
+    blob.download_to_filename(download_location)
+
+
 def get_blob(bucket, prefix, required_file):
     blobs = bucket.list_blobs(prefix=prefix)
     for blob in blobs:
@@ -67,18 +76,14 @@ def get_daily_directory(date_shift):
     return date
 
 
-def check_files_exists(pattern, shift):
+def get_rf_files(pattern, directory, shift):
     bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
     prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
     blobs = bucket.list_blobs(prefix=prefix)
-    count = 0
     for blob in blobs:
         if fnmatch.fnmatch(blob.name, "*" + pattern):
-            count += 1
-    if count > 0:
-        return True
-    else:
-        return False
+            download_location = directory + '/' + config.SUB_REF_FILE
+            blob.download_to_filename(download_location)
 
 
 def days_between(d1, d2):
@@ -113,9 +118,18 @@ try:
     except:
         print('Mean-Ref file download failed')
 
-    if check_files_exists(config.RF_FILE_SUFFIX, shift):
-        print("proceed")
-    else:
-        print("stop")
+    subrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
+    subrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
+    subrf_blob = get_blob(subrf_bucket, subrf_prefix, config.SUB_REF_FILE)
+    try:
+        get_sub_ref_file(subrf_blob, config.SUB_REF_DIR, shift)
+    except:
+        print('Sub-Ref file download failed')
+
+    try:
+        get_rf_files(config.RF_FILE_SUFFIX, config.RF_DIR, shift)
+    except:
+        print('Rainfall files download failed')
 except:
-    print('Rain cell/Mean-Ref file download failed')
+    print('Rain cell/Mean-Ref/Sub-ref file download failed')
+
