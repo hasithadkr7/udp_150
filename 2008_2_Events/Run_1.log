@@ -1,0 +1,8 @@
+NOTE 15301:  Began computing simulation run "Run 1" at time 10Apr2018, 09:50:29.
+NOTE 20364:  Found no parameter problems in meteorologic model "Met 1".
+NOTE 40049:  Found no parameter problems in basin model "Basin 1".
+WARNING 10312:  Gage "Awissawella" contains 191 missing values that were set to zero.
+WARNING 10312:  Gage "Awissawella" contains 191 missing values that were set to zero.
+WARNING 10312:  Gage "Colombo" contains 191 missing values that were set to zero.
+WARNING 10312:  Gage "Colombo" contains 191 missing values that were set to zero.
+NOTE 15302:  Finished computing simulation run "Run 1" at time 10Apr2018, 09:50:29.

@@ -1,0 +1,8 @@
+ -----DSS*** ZRRTS:  CAUTION - Data block not found in file.  Unit:   73
+ Pathname: //AWISSAWELLA/PRECIP-INC/01MAR2017/1HOUR/GAGE/
+ -----DSS--- ZREAD Unit   73; Vers.    1:  //AWISSAWELLA/PRECIP-INC/01APR2017/1HOUR/GAGE/
+ -----DSS*** ZRRTS:  CAUTION - Data block not found in file.  Unit:   73
+ Pathname: //COLOMBO/PRECIP-INC/01MAR2017/1HOUR/GAGE/
+ -----DSS--- ZREAD Unit   73; Vers.    1:  //COLOMBO/PRECIP-INC/01APR2017/1HOUR/GAGE/
+ -----DSS---ZWRITE Unit  72; Vers.    1:  //UPPER/FLOW-UNIT GRAPH/TS-PATTERN/1HOUR/RUN:RUN 1/
+ -----DSS---ZWRITE Unit  72; Vers.    1:  //LOWER/FLOW-UNIT GRAPH/TS-PATTERN/1HOUR/RUN:RUN 1/

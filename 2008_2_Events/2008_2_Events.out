@@ -1,0 +1,12 @@
+    -----DSS---ZOPEN:  New File Opened,  File: /home/uwcc-admin/udp_150/2008_2_Events/2008_2_Events_run.dss
+                       Unit:   71;  DSS Version: 6-WE
+    -----DSS---ZCLOSE Unit:   71,   File: /home/uwcc-admin/udp_150/2008_2_Events/2008_2_Events_run.dss
+               Pointer Utilization:  0.00
+               Number of Records:      0
+               File Size:     25.6  Kbytes
+               Percent Inactive:   0.0
+
+    -----DSS---ZOPEN:  Existing File Opened,  File: /home/uwcc-admin/udp_150/2008_2_Events/2008_2_Events_run.dss
+                       Unit:   72;  DSS Versions - Software: 6-WE, File: 6-WE
+    -----DSS---ZOPEN:  Existing File Opened,  File: /home/uwcc-admin/udp_150/2008_2_Events/2008_2_Events_input.dss
+                       Unit:   73;  DSS Versions - Software: 6-WE, File: 6-QE
