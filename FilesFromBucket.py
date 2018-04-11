@@ -80,12 +80,16 @@ def get_rf_files(pattern, file_dir, shift):
     bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
     prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
     blobs = bucket.list_blobs(prefix=prefix)
+    date = get_daily_directory(shift)
     directory = file_dir + date
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     for blob in blobs:
         if fnmatch.fnmatch(blob.name, "*" + pattern):
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            download_location = directory + '/' + config.RF_FILE_SUFFIX
+            full_path = blob.name
+            path_partition_list = full_path.split("/")
+            file_name = path_partition_list[3]
+            download_location = directory + '/' + file_name
             blob.download_to_filename(download_location)
 
 

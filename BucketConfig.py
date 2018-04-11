@@ -14,7 +14,7 @@ RAIN_CELL_FILE = 'RAINCELL.DAT'
 DEFAULT_DATE_SHIFT = 1
 
 # For Mean-Rf
-MEAN_REF_DIR = '/hec-hms/Meanref'
+MEAN_REF_DIR = '/hec-hms/Meanref/'
 MEAN_REF_FILE = 'kub_mean_rf.txt'
 
 # For RF data
