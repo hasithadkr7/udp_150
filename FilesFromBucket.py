@@ -76,12 +76,15 @@ def get_daily_directory(date_shift):
     return date
 
 
-def get_rf_files(pattern, directory, shift):
+def get_rf_files(pattern, file_dir, shift):
     bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
     prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
     blobs = bucket.list_blobs(prefix=prefix)
     for blob in blobs:
         if fnmatch.fnmatch(blob.name, "*" + pattern):
+            directory = file_dir + date
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             download_location = directory + '/' + config.SUB_REF_FILE
             blob.download_to_filename(download_location)
 
@@ -94,51 +97,34 @@ def days_between(d1, d2):
 
 try:
     past_date_str = sys.argv[1]
-    print(past_date_str)
+    #print(past_date_str)
     shift_datetime = datetime.strptime(past_date_str, "%Y-%m-%d")
-    print(shift_datetime)
+    #print(shift_datetime)
     shift_date = shift_datetime.strftime("%Y-%m-%d")
-    print(shift_date)
+    #print(shift_date)
     current_date = datetime.today().strftime("%Y-%m-%d")
-    print(current_date)
+    #print(current_date)
     shift = days_between(shift_date, current_date)
-    print(shift)
+    #print(shift)
     try:
         cell_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
         cell_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-        print(cell_prefix)
+        cell_blob = get_blob(cell_bucket, cell_prefix, config.WRF_RAINCELL_FILE_ZIP)
+        get_rain_cell_file(cell_blob, config.RAIN_CELL_DIR, shift)
         try:
-            cell_blob = get_blob(cell_bucket, cell_prefix, config.WRF_RAINCELL_FILE_ZIP)
+            meanrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
+            meanrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
+            meanrf_blob = get_blob(meanrf_bucket, meanrf_prefix, config.MEAN_REF_FILE)
+            get_mean_ref_file(meanrf_blob, config.MEAN_REF_DIR, shift)
             try:
-                get_rain_cell_file(cell_blob, config.RAIN_CELL_DIR, shift)
+                get_rf_files(config.RF_FILE_SUFFIX, config.RF_DIR, shift)
+                print('proceed')
             except:
-                print('Rain cell file download failed')
+                print('Rainfall files download failed')
         except:
-            print('blob getting error')
-    except Exception as e:
-        print(e)
-        print('cell bucket creating error')
-
-    meanrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-    meanrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-    meanrf_blob = get_blob(meanrf_bucket, meanrf_prefix, config.MEAN_REF_FILE)
-    try:
-        get_mean_ref_file(meanrf_blob, config.MEAN_REF_DIR, shift)
+            print('Mean-Ref file download failed')
     except:
-        print('Mean-Ref file download failed')
-
-    # subrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-    # subrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-    # subrf_blob = get_blob(subrf_bucket, subrf_prefix, config.SUB_REF_FILE)
-    # try:
-    #     get_sub_ref_file(subrf_blob, config.SUB_REF_DIR, shift)
-    # except:
-    #     print('Sub-Ref file download failed')
-
-    try:
-        get_rf_files(config.RF_FILE_SUFFIX, config.RF_DIR, shift)
-    except:
-        print('Rainfall files download failed')
+        print('Rain cell file download failed')
 except:
     print('Rain cell/Mean-Ref/Rain fall file download failed')
 
