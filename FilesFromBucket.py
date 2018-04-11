@@ -103,13 +103,22 @@ try:
     print(current_date)
     shift = days_between(shift_date, current_date)
     print(shift)
-    cell_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-    cell_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-    cell_blob = get_blob(cell_bucket, cell_prefix, config.WRF_RAINCELL_FILE_ZIP)
     try:
-        get_rain_cell_file(cell_blob, config.RAIN_CELL_DIR, shift)
-    except:
-        print('Rain cell file download failed')
+        cell_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
+        cell_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
+        print(cell_prefix)
+        try:
+            cell_blob = get_blob(cell_bucket, cell_prefix, config.WRF_RAINCELL_FILE_ZIP)
+            try:
+                get_rain_cell_file(cell_blob, config.RAIN_CELL_DIR, shift)
+            except:
+                print('Rain cell file download failed')
+        except:
+            print('blob getting error')
+    except Exception as e:
+        print(e)
+        print('cell bucket creating error')
+
     meanrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
     meanrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
     meanrf_blob = get_blob(meanrf_bucket, meanrf_prefix, config.MEAN_REF_FILE)

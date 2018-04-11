@@ -4,7 +4,7 @@
 FILE_GEN_TIME = '18:00'
 BUCKET_NAME = 'curwsl_nfs_1'
 WRF_NODE = 'wrf0'
-KEY_FILE_PATH = '/home/uwcc-admin/uwcc-admin.json'
+KEY_FILE_PATH = '/hec-hms/uwcc-admin.json'
 
 # For Rain cell
 RAIN_CELL_DIR = '/hec-hms/Raincell'
