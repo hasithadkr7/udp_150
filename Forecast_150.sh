@@ -94,6 +94,7 @@ OUTPUT_DIR=$(trimQuotes $(cat CONFIG.json | jq '.OUTPUT_DIR'))
 STATUS_FILE=$(trimQuotes $(cat CONFIG.json | jq '.STATUS_FILE'))
 
 HEC_HMS_MODEL_DIR=$(trimQuotes $(cat CONFIG.json | jq '.HEC_HMS_MODEL_DIR'))
+HEC_HMS_MODEL_HACK_DIR=$(trimQuotes $(cat CONFIG.json | jq '.HEC_HMS_MODEL_HACK_DIR'))
 HEC_HMS_DIR=$(trimQuotes $(cat CONFIG.json | jq '.HEC_HMS_DIR'))
 HEC_DSSVUE_DIR=$(trimQuotes $(cat CONFIG.json | jq '.HEC_DSSVUE_DIR'))
 DSS_INPUT_FILE=$(trimQuotes $(cat CONFIG.json | jq '.DSS_INPUT_FILE'))
@@ -321,7 +322,7 @@ main() {
             rm ${DSS_INPUT_FILE}
             rm ${DSS_OUTPUT_FILE}
             # Read Avg precipitation, then create .dss input file for HEC-HMS model
-            ./dssvue/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
+                ./dssvue/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${HEC_HMS_MODEL_DIR} ]] && echo "" || echo "--hec-hms-model-dir $HEC_HMS_MODEL_DIR"`

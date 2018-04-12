@@ -1,7 +1,6 @@
 #!/usr/bin/python3.5
 
 import csv
-import datetime
 import getopt
 import glob
 import json
@@ -9,7 +8,11 @@ import os
 import sys
 import traceback
 from collections import OrderedDict
-
+import fnmatch
+import zipfile
+from datetime import datetime, timedelta
+from google.cloud import storage
+import BucketConfig as config
 from curwmysqladapter import MySQLAdapter, Data
 
 
@@ -49,6 +52,47 @@ def get_observed_timeseries(my_adapter, my_event_id, my_opts):
 
     return new_timeseries
 
+
+def download_required_files(wrf_id):
+    try:
+        wrf_id_list = wrf_id.split("_")
+        client = storage.Client.from_service_account_json(config.KEY_FILE_PATH)
+        bucket = client.get_bucket(config.BUCKET_NAME)
+        prefix = config.INITIAL_PATH_PREFIX + wrf_id
+        blobs = bucket.list_blobs(prefix=prefix)
+        for blob in blobs:
+            if fnmatch.fnmatch(blob.name, "*" + config.WRF_RAINCELL_FILE_ZIP):
+                print(blob.name)
+                directory = config.RAIN_CELL_DIR + wrf_id_list[1]
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                download_location = directory + '/' + config.WRF_RAINCELL_FILE_ZIP
+                blob.download_to_filename(download_location)
+                zip_ref = zipfile.ZipFile(download_location, 'r')
+                zip_ref.extractall(directory)
+                zip_ref.close()
+                os.remove(download_location)
+                src_file = directory + '/' + config.WRF_RAIN_CELL_FILE
+                des_file = directory + '/' + config.RAIN_CELL_FILE
+                os.rename(src_file, des_file)
+            elif fnmatch.fnmatch(blob.name, "*" + config.MEAN_REF_FILE):
+                print(blob.name)
+                directory = config.RAIN_CELL_DIR + wrf_id_list[1]
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                download_location = directory + '/' + config.MEAN_REF_FILE
+                blob.download_to_filename(download_location)
+            elif fnmatch.fnmatch(blob.name, "*" + config.RF_FILE_SUFFIX):
+                print(blob.name)
+                directory = config.RF_DIR + wrf_id_list[1]
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                download_location = directory + '/' + config.RF_FILE
+                blob.download_to_filename(download_location)
+            else:
+                print("File prefix didn't match.")
+    except:
+        print('Rain cell/Mean-Ref/Rain fall file download failed')
 
 try:
     CONFIG = json.loads(open('CONFIG.json').read())
@@ -101,6 +145,7 @@ try:
     startDate = ''
     startTime = ''
     tag = ''
+    wrf_id = ''
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hd:t:T:", [
             "help", "date=", "time=", "start-date=", "start-time=", "wrf-rf=", "wrf-kub=", "tag="
@@ -126,8 +171,8 @@ try:
             KUB_DIR_PATH = arg
         elif opt in ("-T", "--tag"):
             tag = arg
-
-
+        elif opt in ("--wrf_id"):
+            wrf_id = arg
 
     UPPER_CATCHMENT_WEIGHTS = {
         # 'Attanagalla'   : 1/7,    # 1
@@ -191,11 +236,11 @@ try:
     for catchment in UPPER_CATCHMENTS:
         for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % catchment)):
             print('---------------------Start Operating on (Upper) ', filename)
-            csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
+            csvCatchment = csv.reader(open(filename, 'r'), delimiter='\t', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0].replace('_', ' '), '%Y-%m-%d %H:%M:%S')
+                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in UPPER_THEISSEN_VALUES:
                     UPPER_THEISSEN_VALUES[key] = 0
@@ -207,11 +252,11 @@ try:
     for catchment in KELANI_UPPER_BASIN:
         for filename in glob.glob(os.path.join(KUB_DIR_PATH, 'kub_mean_rf.txt')):
             print('---------------------Start Operating on (Kelani Upper Basin) ', filename)
-            csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
+            csvCatchment = csv.reader(open(filename, 'r'), delimiter='\t', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0].replace('_', ' '), '%Y-%m-%d %H:%M:%S')
+                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in KELANI_UPPER_BASIN_VALUES:
                     KELANI_UPPER_BASIN_VALUES[key] = 0
@@ -224,11 +269,11 @@ try:
     for lowerCatchment in LOWER_CATCHMENTS:
         for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % lowerCatchment)):
             print('--------------------Start Operating on (Lower) ', filename)
-            csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
+            csvCatchment = csv.reader(open(filename, 'r'), delimiter='\t', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0].replace('_', ' '), '%Y-%m-%d %H:%M:%S')
+                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in LOWER_THEISSEN_VALUES:
                     LOWER_THEISSEN_VALUES[key] = 0

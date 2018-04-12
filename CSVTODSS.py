@@ -3,7 +3,7 @@
 # Rainfall CSV file format should follow as 
 # https://publicwiki.deltares.nl/display/FEWSDOC/CSV 
 
-import java, csv, sys, datetime, re
+    import java, csv, sys, datetime, re
 from hec.script import MessageBox
 from hec.heclib.dss import HecDss
 from hec.heclib.util import HecTime
