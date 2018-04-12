@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python
 
 import csv
 import datetime
@@ -90,6 +90,11 @@ try:
         MYSQL_DB = CONFIG['MYSQL_DB']
     if 'MYSQL_PASSWORD' in CONFIG:
         MYSQL_PASSWORD = CONFIG['MYSQL_PASSWORD']
+
+    print("MYSQL_HOST:", MYSQL_HOST)
+    print("MYSQL_USER:", MYSQL_USER)
+    print("MYSQL_DB:", MYSQL_DB)
+    print("MYSQL_PASSWORD:", MYSQL_PASSWORD)
 
     date = ''
     time = ''
