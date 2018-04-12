@@ -6,6 +6,7 @@
 
     "TIME_INTERVAL"     : 60,
     "HEC_HMS_MODEL_DIR" : "/hec-hms/2008_2_Events",
+    "HEC_HMS_MODEL_HACK_DIR" : "/hec-hms/2008_2_Events_Hack",
     "DSS_INPUT_FILE"    : "/hec-hms/2008_2_Events/2008_2_Events_input.dss",
     "DSS_OUTPUT_FILE"   : "/hec-hms/2008_2_Events/2008_2_Events_run.dss",
     "HEC_HMS_CONTROL"   : "/hec-hms/2008_2_Events/Control_1.control",

@@ -315,7 +315,7 @@ main() {
             if [ ! -d "$HEC_HMS_MODEL_DIR" ]; then
                 mkdir ${HEC_HMS_MODEL_DIR}
             fi
-            yes | cp -R /home/2008_2_Events_Hack/* ${HEC_HMS_MODEL_DIR}
+            yes | cp -R ${HEC_HMS_MODEL_HACK_DIR}/* ${HEC_HMS_MODEL_DIR}
 
             # Remove .dss files in order to remove previous results
             rm ${DSS_INPUT_FILE}

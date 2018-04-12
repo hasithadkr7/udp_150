@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3.5
 
 import csv
 import datetime
@@ -182,15 +182,15 @@ try:
     KLB_DIR_PATH = '/hec-hms/Subref/' + rfForecastedDate
 
     print('RF_DIR_PATH:', RF_DIR_PATH)
-    print('RF_DIR_PATH:', KUB_DIR_PATH)
-    print('RF_DIR_PATH:', KLB_DIR_PATH)
+    print('KUB_DIR_PATH:', KUB_DIR_PATH)
+    print('KLB_DIR_PATH:', KLB_DIR_PATH)
 
     # TODO: Do not use any more, using WRF generated KUB
     # Norwood_stations_rf.txt
     UPPER_THEISSEN_VALUES = OrderedDict()
     for catchment in UPPER_CATCHMENTS:
         for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % catchment)):
-            print('Start Operating on (Upper) ', filename)
+            print('---------------------Start Operating on (Upper) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
@@ -206,7 +206,7 @@ try:
     KELANI_UPPER_BASIN_VALUES = OrderedDict()
     for catchment in KELANI_UPPER_BASIN:
         for filename in glob.glob(os.path.join(KUB_DIR_PATH, 'kub_mean_rf.txt')):
-            print('Start Operating on (Kelani Upper Basin) ', filename)
+            print('---------------------Start Operating on (Kelani Upper Basin) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
@@ -223,7 +223,7 @@ try:
     LOWER_THEISSEN_VALUES = OrderedDict()
     for lowerCatchment in LOWER_CATCHMENTS:
         for filename in glob.glob(os.path.join(RF_DIR_PATH, '%s_stations_rf.txt' % lowerCatchment)):
-            print('Start Operating on (Lower) ', filename)
+            print('--------------------Start Operating on (Lower) ', filename)
             csvCatchment = csv.reader(open(filename, 'r'), delimiter=' ', skipinitialspace=True)
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:

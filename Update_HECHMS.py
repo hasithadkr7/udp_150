@@ -45,7 +45,7 @@ def get_dss_date_time(date_time):
 
 
 try:
-    CONFIG = json.loads(open('CONFIG_150.json').read())
+    CONFIG = json.loads(open('CONFIG.json').read())
     # print('Config :: ', CONFIG)
 
     NUM_METADATA_LINES = 3
