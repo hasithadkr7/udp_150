@@ -204,7 +204,7 @@ try:
         modelState = datetime.strptime('%s %s' % (date, time), '%Y-%m-%d %H:%M:%S')
     time = modelState.strftime("%H:%M:%S")
     # Set the RF forecast data available file name pattern
-    rfForecastedDate = datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(hours=RF_FORECASTED_DAYS)
+    rfForecastedDate = datetime.strptime(date, '%Y-%m-%d') + timedelta(hours=RF_FORECASTED_DAYS)
     rfForecastedDate = rfForecastedDate.strftime("%Y-%m-%d")
 
     startDateTime = datetime.now()
@@ -282,7 +282,7 @@ try:
     # Get Observed Data
     adapter = MySQLAdapter(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     opts = {
-        'from': (startDateTime - datetime.timedelta(minutes=90)).strftime("%Y-%m-%d %H:%M:%S"),
+        'from': (startDateTime - timedelta(minutes=90)).strftime("%Y-%m-%d %H:%M:%S"),
         'to': modelState.strftime("%Y-%m-%d %H:%M:%S"),
         # 'mode': Data.processed_data TODO: Hack -> Fill with WRF data
     }
