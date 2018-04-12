@@ -355,7 +355,7 @@ main() {
 
             sed -i "/OpenProject/c\\$HEC_HMS_PROJECT_TXT" ${HEC_HMS_SCRIPT_RELATIVE_PATH}
 
-            ./hec-hms-421/hec-hms.sh -s ${HEC_HMS_SCRIPT_RELATIVE_PATH}
+            ./hec-hms.sh -s ${HEC_HMS_SCRIPT_RELATIVE_PATH}
             ret=$?
             if [ ${ret} -ne 0 ]; then
                  echo "Error in running HEC-HMS Model"

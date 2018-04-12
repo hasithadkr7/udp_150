@@ -196,29 +196,29 @@ try:
     LOWER_CATCHMENTS = LOWER_CATCHMENT_WEIGHTS.keys()
 
     # Default run for current day
-    modelState = datetime.datetime.now()
+    modelState = datetime.now()
     if date:
-        modelState = datetime.datetime.strptime(date, '%Y-%m-%d')
+        modelState = datetime.strptime(date, '%Y-%m-%d')
     date = modelState.strftime("%Y-%m-%d")
     if time:
-        modelState = datetime.datetime.strptime('%s %s' % (date, time), '%Y-%m-%d %H:%M:%S')
+        modelState = datetime.strptime('%s %s' % (date, time), '%Y-%m-%d %H:%M:%S')
     time = modelState.strftime("%H:%M:%S")
     # Set the RF forecast data available file name pattern
-    rfForecastedDate = datetime.datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(hours=RF_FORECASTED_DAYS)
+    rfForecastedDate = datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(hours=RF_FORECASTED_DAYS)
     rfForecastedDate = rfForecastedDate.strftime("%Y-%m-%d")
 
-    startDateTime = datetime.datetime.now()
+    startDateTime = datetime.now()
     if startDate:
-        startDateTime = datetime.datetime.strptime(startDate, '%Y-%m-%d')
+        startDateTime = datetime.strptime(startDate, '%Y-%m-%d')
     else:
-        startDateTime = datetime.datetime.strptime(date, '%Y-%m-%d')
+        startDateTime = datetime.strptime(date, '%Y-%m-%d')
     startDate = startDateTime.strftime("%Y-%m-%d")
 
     if startTime:
-        startDateTime = datetime.datetime.strptime('%s %s' % (startDate, startTime), '%Y-%m-%d %H:%M:%S')
+        startDateTime = datetime.strptime('%s %s' % (startDate, startTime), '%Y-%m-%d %H:%M:%S')
     startTime = startDateTime.strftime("%H:%M:%S")
 
-    print('RFTOCSV startTime:', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print('RFTOCSV startTime:', datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(' RFTOCSV run for', date, '@', time, tag)
     print(' With Custom starting', startDate, '@', startTime, ' using RF data of ', rfForecastedDate)
 
@@ -240,7 +240,7 @@ try:
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
+                d = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in UPPER_THEISSEN_VALUES:
                     UPPER_THEISSEN_VALUES[key] = 0
@@ -256,7 +256,7 @@ try:
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
+                d = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in KELANI_UPPER_BASIN_VALUES:
                     KELANI_UPPER_BASIN_VALUES[key] = 0
@@ -273,7 +273,7 @@ try:
             csvCatchment = list(csvCatchment)
             for row in csvCatchment:
                 # print(row[0].replace('_', ' '), row[1].strip(' \t'))
-                d = datetime.datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
+                d = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S')
                 key = d.timestamp()
                 if key not in LOWER_THEISSEN_VALUES:
                     LOWER_THEISSEN_VALUES[key] = 0
@@ -328,7 +328,7 @@ try:
     # Iterate through each timestamp
     for avg in UPPER_THEISSEN_VALUES:
         # print(avg, UPPER_THEISSEN_VALUES[avg], LOWER_THEISSEN_VALUES[avg])
-        d = datetime.datetime.fromtimestamp(avg)
+        d = datetime.fromtimestamp(avg)
         if d > lastObsDateTime:
             try:
                 csvWriter.writerow([d.strftime('%Y-%m-%d %H:%M:%S'), "%.2f" % KELANI_UPPER_BASIN_VALUES[avg],
