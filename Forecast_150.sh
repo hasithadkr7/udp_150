@@ -354,7 +354,7 @@ main() {
             HEC_HMS_PROJECT_NAME="2008_2_Events$([[ -z ${TAG} ]] && echo "" || echo "")" # Do nothing
             HEC_HMS_PROJECT_TXT="OpenProject(\"$HEC_HMS_PROJECT_NAME\", \"$HEC_HMS_PROJECT_RELATIVE_PATH\")"
 
-            sed -i "/OpenProject/c\\$HEC_HMS_PROJECT_TXT" ${HEC_HMS_SCRIPT_RELATIVE_PATH}
+            #sed -i "/OpenProject/c\\$HEC_HMS_PROJECT_TXT" ${HEC_HMS_SCRIPT_RELATIVE_PATH}
 
             ./hec-hms.sh -s ${HEC_HMS_SCRIPT_RELATIVE_PATH}
             ret=$?
