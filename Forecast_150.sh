@@ -322,7 +322,7 @@ main() {
             rm ${DSS_INPUT_FILE}
             rm ${DSS_OUTPUT_FILE}
             # Read Avg precipitation, then create .dss input file for HEC-HMS model
-                ./dssvue/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
+                ./hec-dssvue201/hec-dssvue.sh CSVTODSS.py --date ${forecast_date} --time ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${HEC_HMS_MODEL_DIR} ]] && echo "" || echo "--hec-hms-model-dir $HEC_HMS_MODEL_DIR"`
