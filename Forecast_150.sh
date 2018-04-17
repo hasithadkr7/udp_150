@@ -349,6 +349,7 @@ main() {
                 exit 1
             fi
             # Set FLO2D model path
+            # OpenProject("Model_Name", "Model folder path")
             HEC_HMS_PROJECT_RELATIVE_PATH=$(python3 -c "import os.path; print(os.path.relpath('$HEC_HMS_MODEL_DIR', '$HEC_HMS_DIR'))")
             HEC_HMS_PROJECT_NAME="2008_2_Events$([[ -z ${TAG} ]] && echo "" || echo "")" # Do nothing
             HEC_HMS_PROJECT_TXT="OpenProject(\"$HEC_HMS_PROJECT_NAME\", \"$HEC_HMS_PROJECT_RELATIVE_PATH\")"
@@ -361,6 +362,7 @@ main() {
                  echo "Error in running HEC-HMS Model"
                  exit 1
             fi
+            cd ${ROOT_DIR}
             # Read HEC-HMS result, then extract Discharge into .csv
             ./hec-dssvue201/hec-dssvue.sh DSSTOCSV.py --date ${forecast_date} --time ${forecast_time} \
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
