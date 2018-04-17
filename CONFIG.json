@@ -30,6 +30,12 @@
     "WATER_DISCHARGE_DIR"     : "water_discharge",
     "WATER_DISCHARGE_FILE"    : "water_discharge.txt",
 
+    "KEY_FILE_PATH" : "/hec-hms/uwcc-admin.json",
+    "BUCKET_NAME" : "curwsl_nfs_1",
+    "BUCKET_ID_PREFIX" : "hec_hms",
+    "INFLOW_FILE_PATH" : "/hec-hms/FLO2D/INFLOW.DAT",
+    "OUTFLOW_FILE_PATH" : "/hec-hms/FLO2D/OUTFLOW.DAT",
+
     "HOST_ADDRESS"      : "10.138.0.4",
     "HOST_PORT"         : 8085,
 
