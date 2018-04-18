@@ -108,7 +108,6 @@ def download_required_files():
         blobs = bucket.list_blobs(prefix=prefix)
         for blob in blobs:
             if fnmatch.fnmatch(blob.name, "*" + wrf_raincell_file_zip):
-                print(blob.name)
                 directory = rain_cell_dir + wrf_id_list[1]
                 if not os.path.exists(directory):
                     os.makedirs(directory)
@@ -122,14 +121,12 @@ def download_required_files():
                 des_file = directory + '/' + rain_cell_file
                 os.rename(src_file, des_file)
             elif fnmatch.fnmatch(blob.name, "*" + mean_ref_file):
-                print(blob.name)
                 directory = mean_ref_dir + wrf_id_list[1]
                 if not os.path.exists(directory):
                     os.makedirs(directory)
                 download_location = directory + '/' + config.mean_ref_file
                 blob.download_to_filename(download_location)
             elif fnmatch.fnmatch(blob.name, "*" + rf_file_suffix):
-                print(blob.name)
                 directory = rf_dir + wrf_id_list[1]
                 if not os.path.exists(directory):
                     os.makedirs(directory)
