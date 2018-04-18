@@ -387,6 +387,17 @@ main() {
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${FORCE_RUN} ]] && echo "" || echo "-f"` \
                 `[[ -z ${RUN_NAME} ]] && echo "" || echo "--name $RUN_NAME"`
+            ret=$?
+            if [ ${ret} -ne 0 ]; then
+                 echo "Error in creating FLO2D OUTFLOW.DAT using Tidal data"
+                 exit 1
+            fi
+            ./FilesToBucket.py
+            ret=$?
+            if [ ${ret} -ne 0 ]; then
+                 echo "Error in uploading INFLOW.DAT and OUTFLOW.DAT to bucket"
+                 exit 1
+            fi
         else
             echo "WARN: Already run the forecast. Quit"
             exit 1
