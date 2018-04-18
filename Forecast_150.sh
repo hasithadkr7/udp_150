@@ -43,6 +43,8 @@ Usage: ./Forecast.sh [-d FORECAST_DATE] [-t FORECAST_TIME] [-c CONFIG_FILE] [-r 
 
     --hec-hms-model-dir  Path of HEC_HMS_MODEL_DIR directory. Otherwise using the 'HEC_HMS_MODEL_DIR' from CONFIG.json
     -n|--name            Name field value of the Run table in Database. Use time format such as 'Cloud-1-<%H:%M:%S>' to replace with time(t).
+    -wrf_id     Bucket reference for wrf
+    -hec_hms_id     Bucket reference for hec-hms
 EOF
 }
 
@@ -162,6 +164,16 @@ while true ; do
                 "") shift 2 ;;
                 *) forecast_date="$2" ; shift 2 ;;
             esac ;;
+        -wrf_id)
+            case "$2" in
+                "") shift 2 ;;
+                *) WRF_ID="$2" ; shift 2 ;;
+            esac ;;
+        -hec_hms_id)
+            case "$2" in
+                "") shift 2 ;;
+                *) HEC_HMS_ID="$2" ; shift 2 ;;
+            esac ;;
         -t)
             case "$2" in
                 "") shift 2 ;;
@@ -278,11 +290,8 @@ main() {
     KUB_DIR_PATH=${KUB_DIR_PATH}/${forecast_date}
     FLO2D_RAINCELL_DIR_PATH=${FLO2D_RAINCELL_DIR_PATH}/${forecast_date}
     echo "------------------------------xxxxxxxxxxxxxxx---------------------------------"
-    echo "RF_DIR_PATH:"$RF_DIR_PATH
-	echo "KUB_DIR_PATH:"$KUB_DIR_PATH
-	echo "RF_GRID_DIR_PATH:"$RF_GRID_DIR_PATH
-	echo "FLO2D_RAINCELL_DIR_PATH:"$FLO2D_RAINCELL_DIR_PATH
-	echo "HEC_HMS_MODEL_DIR:"$HEC_HMS_MODEL_DIR
+    echo "HEC_HMS_ID:"$HEC_HMS_ID
+	echo "WRF_ID:"$WRF_ID
     echo "------------------------------xxxxxxxxxxxxxxx---------------------------------"
 
     echo "HEC_HMS_MODEL_DIR=$HEC_HMS_MODEL_DIR"

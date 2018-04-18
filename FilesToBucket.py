@@ -50,13 +50,13 @@ def upload_hec_hms_files():
             bucket = client.get_bucket(bucket_name)
             print("Upload INFLOW.DAT to bucket...")
             try:
-                inflow_blob = bucket.blob('/results/'+hec_hms_id+'/inflow/INFLOW.DAT')
+                inflow_blob = bucket.blob('results/'+hec_hms_id+'/inflow/INFLOW.DAT')
                 inflow_blob.upload_from_filename(filename=inflow_dat)
             except Exception as ex1:
                 print("Upload INFLOW.DAT|Exception: ", ex1)
             print("Upload OUTFLOW.DAT to bucket...")
             try:
-                outflow_blob = bucket.blob('/results/'+hec_hms_id+'/outflow/OUTFLOW.DAT')
+                outflow_blob = bucket.blob('results/'+hec_hms_id+'/outflow/OUTFLOW.DAT')
                 outflow_blob.upload_from_filename(filename=outflow_dat)
             except Exception as ex2:
                 print("Upload OUTFLOW.DAT|Exception: ", ex2)
