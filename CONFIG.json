@@ -36,6 +36,18 @@
     "INFLOW_FILE_PATH" : "/hec-hms/FLO2D/INFLOW.DAT",
     "OUTFLOW_FILE_PATH" : "/hec-hms/FLO2D/OUTFLOW.DAT",
 
+    "FILE_GEN_TIME" : "18:00",
+    "INITIAL_PATH_PREFIX" : "results/",
+    "WRF_RAINCELL_FILE_ZIP" : "RAINCELL_150m.zip",
+    "RAIN_CELL_DIR" : "/hec-hms/Raincell/",
+    "WRF_RAIN_CELL_FILE" : "RAINCELL_150m.DAT",
+    "RAIN_CELL_FILE" : "RAINCELL.DAT",
+    "MEAN_REF_FILE" : "kub_mean_rf.txt",
+    "RF_FILE_SUFFIX" : "stations_rf.txt",
+    "MEAN_REF_DIR" : "/hec-hms/Meanref/",
+    "RF_DIR" : "/hec-hms/Rainfall/",
+    "RF_FILE" : "",
+
     "HOST_ADDRESS"      : "10.138.0.4",
     "HOST_PORT"         : 8085,
 

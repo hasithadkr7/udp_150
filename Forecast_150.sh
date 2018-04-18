@@ -124,6 +124,9 @@ TAG=""
 WRF_OUT="/hec-hms"
 RUN_NAME=""
 
+HEC_HMS_ID="hec_hms0_2018-04-17_15:39_c6xe"
+WRF_ID="wrf0_2018-04-15_18:00_f2Nq"
+
 # Read the options
 # Ref: http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt
 TEMP=`getopt -o hd:t:m:c:r:b:B:fiseC:T:n: \
@@ -296,7 +299,7 @@ main() {
         forecastStatus=0
     fi
     echo $forecast_date
-    result=`./FilesFromBucket.py ${forecast_date}`
+    result=`./FilesFromBucket.py ${WRF_ID}`
     echo $result
     if [ "$result" == "proceed" ]; then
         if [ ${forecastStatus} == 0 ]; then
@@ -392,7 +395,7 @@ main() {
                  echo "Error in creating FLO2D OUTFLOW.DAT using Tidal data"
                  exit 1
             fi
-            ./FilesToBucket.py
+            ./FilesToBucket.py ${HEC_HMS_ID}
             ret=$?
             if [ ${ret} -ne 0 ]; then
                  echo "Error in uploading INFLOW.DAT and OUTFLOW.DAT to bucket"
