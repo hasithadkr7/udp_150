@@ -47,6 +47,10 @@ try:
         bucket_id_prefix = config_data["BUCKET_ID_PREFIX"]
         inflow_dat = config_data["INFLOW_FILE_PATH"]
         outflow_dat = config_data["OUTFLOW_FILE_PATH"]
+        try:
+            upload_hec_hms_files()
+        except Exception as ex:
+            print("upload_hec_hms_files|Exception: ",ex)
 except Exception as e:
     print("Exception occurred: ", e)
 
