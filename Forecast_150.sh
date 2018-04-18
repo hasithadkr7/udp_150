@@ -43,8 +43,8 @@ Usage: ./Forecast.sh [-d FORECAST_DATE] [-t FORECAST_TIME] [-c CONFIG_FILE] [-r 
 
     --hec-hms-model-dir  Path of HEC_HMS_MODEL_DIR directory. Otherwise using the 'HEC_HMS_MODEL_DIR' from CONFIG.json
     -n|--name            Name field value of the Run table in Database. Use time format such as 'Cloud-1-<%H:%M:%S>' to replace with time(t).
-    -wrf_id     Bucket reference for wrf
-    -hec_hms_id     Bucket reference for hec-hms
+    --wrf_id     Bucket reference for wrf
+    --hec_hms_id     Bucket reference for hec-hms
 EOF
 }
 
@@ -132,7 +132,7 @@ WRF_ID="wrf0_2018-04-15_18:00_f2Nq"
 # Read the options
 # Ref: http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt
 TEMP=`getopt -o hd:t:m:c:r:b:B:fiseC:T:n: \
-        --long arga::,argb,argc:,start-date:,start-time:,mode:,tag:,wrf-out:,hec-hms-model-dir:,name: \
+        --long arga::,argb,argc:,start-date:,start-time:,mode:,tag:,wrf-out:,hec-hms-model-dir:,wrf_id:,hec_hms_id:,name: \
         -n 'Forecast.sh' -- "$@"`
 
 # Terminate on wrong args. Ref: https://stackoverflow.com/a/7948533/1461060
@@ -164,12 +164,12 @@ while true ; do
                 "") shift 2 ;;
                 *) forecast_date="$2" ; shift 2 ;;
             esac ;;
-        -wrf_id)
+        -w|--wrf_id)
             case "$2" in
                 "") shift 2 ;;
                 *) WRF_ID="$2" ; shift 2 ;;
             esac ;;
-        -hec_hms_id)
+        -u|--hec_hms_id)
             case "$2" in
                 "") shift 2 ;;
                 *) HEC_HMS_ID="$2" ; shift 2 ;;

@@ -104,7 +104,7 @@ def download_required_files():
         wrf_id_list = wrf_id.split("_")
         client = storage.Client.from_service_account_json(key_file)
         bucket = client.get_bucket(bucket_name)
-        prefix = initial_path_prefix + wrf_id
+        prefix = initial_path_prefix + wrf_id + '_'
         blobs = bucket.list_blobs(prefix=prefix)
         for blob in blobs:
             if fnmatch.fnmatch(blob.name, "*" + wrf_raincell_file_zip):
