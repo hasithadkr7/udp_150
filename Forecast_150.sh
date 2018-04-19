@@ -131,7 +131,7 @@ WRF_ID="wrf0_2018-04-15_18:00_f2Nq"
 
 # Read the options
 # Ref: http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt
-TEMP=`getopt -o hd:t:m:c:r:b:B:fiseC:T:n: \
+TEMP=`getopt -o hd:t:m:c:r:u:w:b:B:fiseC:T:n: \
         --long arga::,argb,argc:,start-date:,start-time:,mode:,tag:,wrf-out:,hec-hms-model-dir:,wrf_id:,hec_hms_id:,name: \
         -n 'Forecast.sh' -- "$@"`
 
