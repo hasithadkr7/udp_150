@@ -7,13 +7,13 @@ import json
 from google.cloud import storage
 
 
+def get_config():
+    with open('CONFIG.json') as json_file:
+        return json.load(json_file)
+    
+    
 # Refer: http://stackoverflow.com/a/13146494/1461060
 class StoreHandler(BaseHTTPRequestHandler):
-    def __init__(self):
-        with open('CONFIG.json') as json_file:
-            self.config_data = json.load(json_file)
-        print("StoreHandler object is created.")
-
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -21,6 +21,7 @@ class StoreHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         print("http GET....")
+        config_data = get_config()
         url, query = url_parser.splitquery(self.path)
         if query.split('&')[0].split('=')[0] == 'wrf' and query.split('&')[1].split('=')[0] == 'hec':
             wrf_id = query.split('&')[0].split('=')[1]
@@ -29,37 +30,37 @@ class StoreHandler(BaseHTTPRequestHandler):
             print("hec_id:", hec_id)
             try:
                 print("get_wrf_files...")
-                client = storage.Client.from_service_account_json(self.config_data["KEY_FILE_PATH"])
-                bucket = client.get_bucket(self.config_data["BUCKET_NAME"])
-                prefix = self.config_data["INITIAL_PATH_PREFIX"] + wrf_id + '_'
+                client = storage.Client.from_service_account_json(config_data["KEY_FILE_PATH"])
+                bucket = client.get_bucket(config_data["BUCKET_NAME"])
+                prefix = config_data["INITIAL_PATH_PREFIX"] + wrf_id + '_'
                 blobs = bucket.list_blobs(prefix=prefix)
                 for blob in blobs:
-                    if fnmatch.fnmatch(blob.name, "*" + self.config_data["WRF_RAINCELL_FILE_ZIP"]):
-                        directory = self.config_data["WINDOWS_PATH"] + wrf_id.split("_")[1]
+                    if fnmatch.fnmatch(blob.name, "*" + config_data["WRF_RAINCELL_FILE_ZIP"]):
+                        directory = config_data["WINDOWS_PATH"] + wrf_id.split("_")[1]
                         if not os.path.exists(directory):
                             os.makedirs(directory)
-                        download_location = directory + '/' + self.config_data["WRF_RAINCELL_FILE_ZIP"]
+                        download_location = directory + '/' + config_data["WRF_RAINCELL_FILE_ZIP"]
                         blob.download_to_filename(download_location)
                         zip_ref = zipfile.ZipFile(download_location, 'r')
                         zip_ref.extractall(directory)
                         zip_ref.close()
                         os.remove(download_location)
-                        src_file = directory + '/' + self.config_data["WRF_RAIN_CELL_FILE"]
-                        des_file = directory + '/' + self.config_data["RAIN_CELL_FILE"]
+                        src_file = directory + '/' + config_data["WRF_RAIN_CELL_FILE"]
+                        des_file = directory + '/' + config_data["RAIN_CELL_FILE"]
                         os.rename(src_file, des_file)
                     else:
                         print("File prefix didn't match.")
-                hec_prefix = self.config_data["INITIAL_PATH_PREFIX"] + hec_id + '_'
+                hec_prefix = config_data["INITIAL_PATH_PREFIX"] + hec_id + '_'
                 hec_blobs = bucket.list_blobs(prefix=hec_prefix)
                 for blob in hec_blobs:
                     if fnmatch.fnmatch(blob.name, "*" + "INFLOW.DAT"):
-                        directory = self.config_data["WINDOWS_PATH"] + hec_id.split("_")[1]
+                        directory = config_data["WINDOWS_PATH"] + hec_id.split("_")[1]
                         if not os.path.exists(directory):
                             os.makedirs(directory)
                         download_location = directory + '/"INFLOW.DAT'
                         blob.download_to_filename(download_location)
                     elif fnmatch.fnmatch(blob.name, "*" + "OUTFLOW.DAT"):
-                        directory = self.config_data["WINDOWS_PATH"] + hec_id.split("_")[1]
+                        directory = config_data["WINDOWS_PATH"] + hec_id.split("_")[1]
                         if not os.path.exists(directory):
                             os.makedirs(directory)
                         download_location = directory + '/OUTFLOW.DAT'
