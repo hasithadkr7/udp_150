@@ -137,6 +137,7 @@ try:
     startTime = ''
     tag = ''
     forceInsert = False
+    storeData = False
     runName = 'Cloud-1'
 
     try:
@@ -162,6 +163,8 @@ try:
             tag = arg
         elif opt in ("-f", "--force"):
             forceInsert = True
+        elif opt in ("-s", "--store"):
+            storeData = True
         elif opt in ("-n", "--name"):
             runName = arg
 
@@ -240,8 +243,11 @@ try:
         'forceInsert': forceInsert,
         'runName': runName
     }
-    adapter = MySQLAdapter(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    save_forecast_timeseries(adapter, csvList[CSV_NUM_METADATA_LINES:], date, time, opts)
+    if storeData:
+        adapter = MySQLAdapter(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
+        save_forecast_timeseries(adapter, csvList[CSV_NUM_METADATA_LINES:], date, time, opts)
+    else:
+        print("---------------------------------------Mysql db not updated.-------------------------------------")
 
 except Exception as e :
     print(e)

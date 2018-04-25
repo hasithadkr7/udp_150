@@ -386,6 +386,7 @@ main() {
                 --start-date ${timeseries_start_date} --start-time ${timeseries_start_time} \
                 `[[ -z ${TAG} ]] && echo "" || echo "--tag $TAG"` \
                 `[[ -z ${FORCE_RUN} ]] && echo "" || echo "-f"` \
+                `[[ -z ${STORE_DATA} ]] && echo "" || echo "-s"` \
                 `[[ -z ${RUN_NAME} ]] && echo "" || echo "--name $RUN_NAME"`
             ret=$?
             if [ ${ret} -ne 0 ]; then

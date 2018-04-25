@@ -6,7 +6,7 @@ import subprocess
 import sys
 import traceback
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from os import curdir
+from os.path import curdir
 from os.path import join as pjoin
 from subprocess import Popen
 from sys import executable

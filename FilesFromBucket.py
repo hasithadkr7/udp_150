@@ -162,36 +162,4 @@ try:
 except Exception as e:
     print("Exception occurred: ", e)
 
-# try:
-#     past_date_str = sys.argv[1]
-#     #print(past_date_str)
-#     shift_datetime = datetime.strptime(past_date_str, "%Y-%m-%d")
-#     #print(shift_datetime)
-#     shift_date = shift_datetime.strftime("%Y-%m-%d")
-#     #print(shift_date)
-#     current_date = datetime.today().strftime("%Y-%m-%d")
-#     #print(current_date)
-#     shift = days_between(shift_date, current_date)
-#     #print(shift)
-#     try:
-#         cell_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-#         cell_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-#         cell_blob = get_blob(cell_bucket, cell_prefix, config.WRF_RAINCELL_FILE_ZIP)
-#         get_rain_cell_file(cell_blob, config.RAIN_CELL_DIR, shift)
-#         try:
-#             meanrf_bucket = get_bucket(config.KEY_FILE_PATH, config.BUCKET_NAME)
-#             meanrf_prefix = get_folder_prefix(config.WRF_NODE, config.FILE_GEN_TIME, shift)
-#             meanrf_blob = get_blob(meanrf_bucket, meanrf_prefix, config.MEAN_REF_FILE)
-#             get_mean_ref_file(meanrf_blob, config.MEAN_REF_DIR, shift)
-#             try:
-#                 get_rf_files(config.RF_FILE_SUFFIX, config.RF_DIR, shift)
-#                 print('proceed')
-#             except:
-#                 print('Rainfall files download failed')
-#         except:
-#             print('Mean-Ref file download failed')
-#     except:
-#         print('Rain cell file download failed')
-# except:
-#     print('Rain cell/Mean-Ref/Rain fall file download failed')
 

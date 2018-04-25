@@ -4,9 +4,6 @@
 from google.cloud import storage
 import json
 import sys
-import string
-import random
-from datetime import datetime
 
 
 # Buckets/curwsl_nfs_1/results/wrf0_2018-04-15_18:00_f2Nq

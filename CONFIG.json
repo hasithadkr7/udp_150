@@ -50,6 +50,7 @@
 
     "HOST_ADDRESS"      : "10.138.0.4",
     "HOST_PORT"         : 8085,
+    "WINDOWS_PATH"      : "/hec-hms/",
 
     "MYSQL_HOST"        : "10.138.0.6",
     "MYSQL_USER"        : "curw",
