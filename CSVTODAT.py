@@ -141,7 +141,7 @@ try:
     runName = 'Cloud-1'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:t:T:fn:", [
+        opts, args = getopt.getopt(sys.argv[1:], "hd:t:T:fsn:", [
             "help", "date=", "time=", "start-date=", "start-time=", "tag=", "force", "runName="
         ])
     except getopt.GetoptError:          
